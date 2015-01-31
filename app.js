@@ -19,7 +19,9 @@ app.get('/', function(req, res) {
 app.post('/api/sms', function(req, res) {
   // Handle Twilio requests here
   api_cache.push(req.body)
-  res.json(api_cache);
+  var twimlRes = '<?xml version="1.0" encoding="UTF-8"?>';
+  twimlRes += '<Response><Message>Reply: ' + req.body.Body + '</Message></Response>';
+  res.send(twimlRes);
 });
 
 app.get('/api/sms', function(req, res) {
