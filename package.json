@@ -1,0 +1,22 @@
+{
+  "name": "polaris",
+  "version": "1.0.0",
+  "description": "Offline directions on-demand",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nayeemzen/polaris.git"
+  },
+  "author": "Nayeem Zen, Andrew Louis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nayeemzen/polaris/issues"
+  },
+  "homepage": "https://github.com/nayeemzen/polaris",
+  "dependencies": {
+    "express": "^4.11.1"
+  }
+}
