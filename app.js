@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+var api_cache = [];
 
 app.get('/', function(req, res) {
   res.end('<h1> This is the polaris API server');
@@ -17,8 +18,12 @@ app.get('/', function(req, res) {
 // Twilio SMS Handler
 app.post('/api/sms', function(req, res) {
   // Handle Twilio requests here
-  console.log(req.body);
-  res.json(req.body);
+  api_cache.push(req.body)
+  res.json(api_cache);
+});
+
+app.get('/api/sms', function(req, res) {
+  res.json(api_cache);
 });
 
 app.listen(port);
