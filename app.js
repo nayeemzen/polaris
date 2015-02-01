@@ -1,99 +1,91 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var googleMaps = require('googlemaps')
-var util = require('util')
-var twilio = require('twilio')
-var request = require('request')
+var express = require('express');
+var bodyParser = require('body-parser');
+var googleMaps = require('googlemaps');
+var util = require('util');
+var twilio = require('twilio');
+var request = require('request');
+var http = require('http');
+var $ = require('string')
 var port = process.env.PORT || 3000;
 
-var app = express()
-
-// Use body-parser middleware for handling POST requests
-app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
-app.use(bodyParser.json())
-
+// Cache all requests in memory
 var api_cache = [];
 
+var app = express();
+// Use body-parser middleware for handling POST requests
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+// Default route
 app.get('/', function (req, res) {
-    res.send("<h1> This is the polaris API server</h1>");
+  res.send("<h1> This is the polaris API server</h1>");
 })
 
-// Twilio SMS Handler
-app.post('/api/sms', function(req, res) {
-  // Handle Twilio requests here
-  api_cache.push(req.body)
-  var twimlRes = '<?xml version="1.0" encoding="UTF-8"?>';
-  twimlRes += '<Response><Message>Reply: ' + req.body.Body + '</Message></Response>';
-  res.send(twimlRes);
-});
-
+// Get cached requests
 app.get('/api/sms', function(req, res) {
   res.json(api_cache);
 });
 
+// Twilio SMS Handler route
+app.post('/api/sms', function(req, res) {
+  api_cache.push(req.body)
+  var data = req.body.Body;
 
-app.post('/navigate', function (req, res) {
-  var origin = req.body.origin;
-  var destination = req.body.destination;
-  var mode = req.body.mode;
-  
-  /*
-    Optimizations
-      - Transit mode
-      - Departure/Arrival time
-  */
- 
-  googleMaps.directions(origin, destination, 
-    function(err, result){
-      if (err){
-        console.log("in here");
-        res.send(  JSON.stringify(err) );       
-      }
-      else{
-        
-        if (result['status'] == 'OK'){
-          console.log("polaris"); 
+  getDirections(data.origin, data.destination, data.mode, function(directions) {
+    // Send Twiml (Twilio Markup) response
+    res.send(constructTwiml(directions));
+  });
 
+});
 
-          var _start = result['routes'][0].legs[0].start_location;
-          var _end = result['routes'][0].legs[0].end_location;
-          
-          _start = _start.lat + "," + _start.lng;
-          _end = _end.lat + "," + _end.lng;
+function constructTwiml(directions) {
+  var twimlRes = '<?xml version="1.0" encoding="UTF-8"?>';
+  twimlRes += '<Response><Message>' + directions.join('\n') + '</Message></Response>';
+  return twimlRes;
+}
 
+function getDirections(origin, destination, mode, callback) {
+  // Make API call to the Google Maps API
+  googleMaps.directions(origin, destination, function(err, result) {
+    if (err) return console.error(err);
 
-          var styles = [
-              // { 'feature': 'road', 'element': 'all', 'rules': 
-              //     { 'hue': '0x00ff00' }
-              // }
-          ]
+    var directions = [];
+    result['routes'][0]['legs'][0].steps.forEach(function(step) {
+      var step = step.html_instructions;
+      // cleanse HTML tags using string.js ($)
+      directions.push($(step).stripTags().s);
+    });
 
-          var paths = [
-              { 'color': '0x0000ff', 'weight': '5', 'points': 
-                  [ _start, _end ]
-              }
-          ]
+    // invoke callback with array of directions
+    callback(directions);
+  },'false', mode, null, null,null, null, null, null);
+}
 
-          //var map = exec(googleMaps.staticMap(null, null, '500x400', false, false, 'roadmap', markers, styles))
+// Start express server
+app.listen(port, function() {
+  console.log('Listening to port:', port);
+});
 
-          res.send(  JSON.stringify(result) ); 
-        }
-        else{
-          res.send(  JSON.stringify(result) ); 
-        }
-      }
-    },
-  'false', mode, null, null,null, null, null, null);
-})
+/* MAPS API CODE
+var _start = result['routes'][0].legs[0].start_location;
+var _end = result['routes'][0].legs[0].end_location;
+
+_start = _start.lat + "," + _start.lng;
+_end = _end.lat + "," + _end.lng;
 
 
-var server = app.listen(3000, function () {
+var paths = [
+{ 'color': '0x0000ff',
+'weight': '5',
+'points': [ _start, _end ]
+}
+]
 
-  var host = server.address().address
-  var port = server.address().port
+var styles = [
+{ 'feature': 'road', 'element': 'all', 'rules':
+{ 'hue': '0x00ff00' }
+}
+]
 
-  console.log('Example app listening at http://%s:%s', host, port)
-
-})
+var map = exec(googleMaps.staticMap(null, null, '500x400', false, false, 'roadmap', markers, styles))
+*/
