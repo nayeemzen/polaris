@@ -50,7 +50,7 @@ angular.module('polaris.controllers', [])
   }
 
   $scope.sendSMS = function() {
-    var msg = JSON.stringify($scope.location);
+    var msg = $scope.location;
 
     SMS.sendSMS('+16475593820', msg, function() {
       window.location.href = "#/app/showDirections";
