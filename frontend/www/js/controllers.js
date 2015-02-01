@@ -24,12 +24,6 @@ angular.module('polaris.controllers', [])
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
   };
 })
 
@@ -38,24 +32,28 @@ angular.module('polaris.controllers', [])
 
 })
 
-.controller('NavigateCtrl', function($scope, $state) {
+.controller('NavigateCtrl', function($scope, $location) {
 
   $scope.location = {};
   $scope.location.mode = "Walking";
   $scope.location.origin = "";
   $scope.location.destination = "";
+  $scope.test = "TEST";
+  $scope.directions = "hello world";
 
   $scope.setActive = function($event) {
     console.log($scope.currentTarget);
   }
+// 16476910576
+// 16475593820
 
   $scope.sendSMS = function() {
     SMS.sendSMS('+16475593820', $scope.location, function() {
-      window.location.href = "#/app/showDirections";
     }, function(e) {
       console.log('Message Failed:' + e);
     });
 
+    $location.path('/app/showDirections');
   }
 
   // somewhere in your controller
@@ -65,4 +63,24 @@ angular.module('polaris.controllers', [])
       // do something when the picker closes
     }
   }
+
+})
+
+.controller('DirectionsCtrl', function($scope) {
+
+  var filter = {};
+  filter.box = 'inbox';
+  filter.address = '+16475593820';
+  filter.maxCount = 1;
+
+  $scope.directions = "";
+
+  SMS.listSMS(filter, function(data) {
+    $scope.directions = data[0].body
+      .split(/-(.+)?/)[1]
+      .replace('(','')
+      .replace(')','')
+      .split(',');
+  });
+
 });

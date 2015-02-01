@@ -45,7 +45,6 @@
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/angular-datepicker.js \
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/app.js \
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/controllers.js \
-/Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/services.js \
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/themes \
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/themes/classic.css \
 /Users/nayeemzen/Projects/polaris/frontend/platforms/android/assets/www/js/themes/classic.date.css \

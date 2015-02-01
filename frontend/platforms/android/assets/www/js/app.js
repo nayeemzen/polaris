@@ -49,7 +49,7 @@ angular.module('polaris', ['ionic', 'polaris.controllers', 'angular-datepicker']
     views: {
       'menuContent': {
         templateUrl: "templates/showDirections.html",
-        controller: 'NavigateCtrl'
+        controller: 'DirectionsCtrl'
       }
     }
   })
