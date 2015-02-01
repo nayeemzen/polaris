@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('polaris.controllers', [])
 
 .controller('AppCtrl', function($scope, $location, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -52,11 +52,10 @@ angular.module('starter.controllers', [])
   $scope.sendSMS = function() {
     var msg = JSON.stringify($scope.location);
 
-    SMS.sendSMS('+16475593820', msg, function(){
-      alert('Success!!');
+    SMS.sendSMS('+16475593820', msg, function() {
       window.location.href = "#/app/showDirections";
     }, function(e) {
-      alert('Message Failed:' + e);
+      console.log('Message Failed:' + e);
     });
 
   }
@@ -68,4 +67,4 @@ angular.module('starter.controllers', [])
       // do something when the picker closes
     }
   }
-})
+});

@@ -10,6 +10,7 @@ var port = process.env.PORT || 3000;
 
 // Cache all requests in memory
 var api_cache = [];
+var debug_messages = [];
 
 var app = express();
 // Use body-parser middleware for handling POST requests
@@ -26,6 +27,11 @@ app.get('/api/sms', function(req, res) {
   res.json(api_cache);
 });
 
+
+app.get('/api/debug/', function(req, res) {
+  res.json(debug_message);
+});
+
 // Twilio SMS Handler route
 app.post('/api/sms', function(req, res) {
   api_cache.push(req.body)
@@ -38,7 +44,10 @@ app.post('/api/sms', function(req, res) {
 
   getDirections(data.origin, data.destination, data.mode, function(directions) {
     // Send Twiml (Twilio Markup) response
-    res.send(constructTwiml(directions));
+    debug_messages.push(data);
+    var twiml = constructTwiml(directions);
+    debug_messages.push(twiml);
+    res.send(twiml);
   });
 
 });
