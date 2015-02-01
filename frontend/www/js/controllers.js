@@ -54,17 +54,20 @@ angular.module('starter.controllers', [])
   $scope.destination = '42 St George St, Toronto, ON';
   //$scope.leaveAt = ''; init to current time
 
-  $scope.setActive= function($event){
-    console.log($scope.currentTarget);
-  }
-
-  // somewhere in your controller
-  $scope.options = {
-    format: 'hh-mm', // ISO formatted date
-    onClose: function(e) {
-      // do something when the picker closes   
+  $scope.transitModes = [
+    { 
+        mode: 'walk'
+    },
+    {
+        mode: 'bicycle'
+    },
+    {
+        mode: 'train' 
+    },
+    {
+        mode: 'car' 
     }
-  }
+  ];
 
   $scope.directions = [
     { title: 'Reggae' },
@@ -74,6 +77,17 @@ angular.module('starter.controllers', [])
     { title: 'Rap' },
     { title: 'Cowbell' }
   ];
+
+
+  $scope.selectedMode = -1;
+  $scope.selectMode = function(_id){
+    console.log($scope.selectedMode);
+    $scope.selectedMode = _id;
+    console.log($scope.selectedMode);
+    console.log("\n");
+  };
+
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {

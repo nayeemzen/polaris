@@ -1,18 +1,32 @@
 <ion-view view-title="Directions">
-  <ion-content>
-  	<h1 class="lato_title">Directions</h1>
-    <ion-list>
-      <ion-item ng-repeat="direction in directions">
-        {{direction.title}}
-      </ion-item>
-    </ion-list>
+  
+ <ion-content>
+
+    <div class="list showDir">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Distance</span>
+        <div class="distOut">13 kM</div>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Duration</span>
+        <div class="durationOut">20 min.</div>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Directions</span>
+        <ion-list type="card">
+          <ion-item ng-repeat="direction in directions">
+            {{direction.title}}
+          </ion-item>
+        </ion-list>
+      </label>      
+    </div>    
+
+
+
+
+
   </ion-content>
 
-    <!-- align to the bottom of the page -->
-    <div class="nav-btn">
-			<button class="button button-stable button-block ">
-			  SEARCH AGAIN
-			</button>
-    </div>
+
 
 </ion-view>
