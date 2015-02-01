@@ -1,7 +1,5 @@
 <ion-view view-title="Directions">
-  
  <ion-content>
-
     <div class="list showDir">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Distance</span>
@@ -13,20 +11,12 @@
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Directions</span>
-        <ion-list type="card">
-          <ion-item ng-repeat="direction in directions">
-            {{direction.title}}
-          </ion-item>
-        </ion-list>
       </label>      
+      <ion-list type="list">
+        <ion-item ng-repeat="direction in directions">
+          {{direction.title}}
+        </ion-item>
+      </ion-list>
     </div>    
-
-
-
-
-
   </ion-content>
-
-
-
 </ion-view>
