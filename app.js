@@ -29,7 +29,7 @@ app.get('/api/sms', function(req, res) {
 
 
 app.get('/api/debug/', function(req, res) {
-  res.json(debug_message);
+  res.json(debug_messages);
 });
 
 // Twilio SMS Handler route
