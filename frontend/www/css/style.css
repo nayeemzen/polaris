@@ -1,0 +1,55 @@
+.nav-btn{
+	position: absolute;
+	bottom: 0px;
+	width: 90%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom:50px;
+}
+
+.logo{
+	width: 100%;
+	min-height: 400px;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	background: url(../img/logo.png) center;
+	background-size: cover;
+	zoom: 1.4;
+}
+
+.landing{
+	background:url(../img/bg.jpeg) no-repeat center;
+	opacity:0.8;
+}
+
+.transitMode{
+}
+
+.transitMode .col{
+	text-align: center;
+}
+
+.transitMode .col button
+{
+	font-size: 30px;
+	width: 90%;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.navRequest .input-label{
+	font-family: Lato;
+	font-size: 38px;
+}
+
+.lato_title{
+	font-family: Lato;
+	font-size: 38px;
+}
+
+.navRequest input{
+	font-size: 15px;
+}
