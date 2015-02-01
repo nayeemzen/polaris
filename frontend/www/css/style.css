@@ -13,26 +13,15 @@ a {
 	margin-bottom: 7%;
 }
 
-.nav-btn{
-	position: absolute;
-	bottom: 0px;
-	width: 90%;
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 7%;
-}
 
 .nav-btn-2{
-	position: fixed;
+	position: relative;
 	bottom: 0px;
 	width: 90%;
 	left: 0;
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 2%;
 }
 
 .logo{
@@ -42,7 +31,7 @@ a {
 	margin-right: auto;
 	background: url(../img/logo.png) center;
 	background-size: cover;
-	zoom: 1.2;
+	zoom: 1.4;
 }
 
 .lato-btn{
@@ -81,7 +70,7 @@ a {
 	font-family: Lato;
 	font-size: 34px;
 	font-weight: 100;
-	color: #E74C3C;	
+	color: #E74C3C;
 }
 
 .lato_title{

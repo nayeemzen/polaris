@@ -1,4 +1,4 @@
-<ion-view view-title="Navigate">
+<ion-view view-title="Map Route">
   <ion-content >
 	<div class="list navRequest">
 	  <label class="item item-input item-stacked-label">
@@ -11,32 +11,23 @@
 	  </label>
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Leave At</span>
-	    <input type="text" pick-a-time="time" placeholder="Select Time" />
+		<input type="time" />
 	  </label>
 	</div>
 
 	<div class='row padding transitMode'>
-		<div class="col">
-			<button class="button button-outline button-energized ion-android-walk"></button>
-		</div>
-		<div class="col">
-			<button ng-click='setActive()' class="button button-outline button-energized ion-android-bicycle"></button>
-		</div>
-		<div class="col">
-			<button ng-click='setActive()' class="button button-outline button-energized ion-android-train"></button>
-		</div>
-		<div class="col">
-			<button ng-click='setActive()' class="button button-outline button-energized ion-android-car"></button>
+		<div class="col" ng-repeat="transitMode in transitModes">
+			<button ng-click="selectMode($id)" ng-class="{'currentMode':$id == selectedMode}"
+      class="button button-outline button-polaris ion-android-{{transitMode.mode}}">
+      </button>
 		</div>
 	</div>
 
+  <!-- align to the bottom of the page -->
+  <div class="hide-on-keyboad-open nav-btn-2">
+    <button class="button button-outline button-polaris
+    ion-chevron-right button-block" ng-click="sendSMS()"></button>
+  </div>
+
   </ion-content>
-
-    <!-- align to the bottom of the page -->
-    <div class="nav-btn">
-			<button class="button button-stable button-block " ng-click="sendSMS()">
-			  GET DIRECTIONS
-			</button>
-    </div>
-
 </ion-view>

@@ -10,13 +10,23 @@ a {
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom:50px;
+	margin-bottom: 7%;
+}
+
+
+.nav-btn-2{
+	position: relative;
+	bottom: 0px;
+	width: 90%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .logo{
 	width: 100%;
-	min-height: 400px;
-	margin-top: 50px;
+	min-height: 305px;
 	margin-left: auto;
 	margin-right: auto;
 	background: url(../img/logo.png) center;
@@ -24,12 +34,17 @@ a {
 	zoom: 1.4;
 }
 
-.landing{
-	background:url(../img/bg.jpeg) no-repeat center;
-	opacity:0.8;
+.lato-btn{
+	font-family: 'Lato', sans serif;
+	font-size:16px;
+	font-weight:300;
+	text-transform: uppercase;
+	letter-spacing: 1px
 }
 
-.transitMode{
+.currentMode{
+	background:#E74C3C !important;
+	color:white !important;
 }
 
 .transitMode .col{
@@ -47,13 +62,51 @@ a {
 .navRequest .input-label{
 	font-family: Lato;
 	font-size: 38px;
+	font-weight: 100;
+	color: #E74C3C;
+}
+
+.showDir .input-label{
+	font-family: Lato;
+	font-size: 34px;
+	font-weight: 100;
+	color: #E74C3C;
 }
 
 .lato_title{
-	font-family: Lato;
+	font-family: 'Lato', sans serif;
+	font-weight:100;
 	font-size: 38px;
 }
 
 .navRequest input{
-	font-size: 15px;
+	font-size: 16px;
+}
+
+.item-content .icon{
+	font-size: 1.5em;
+	padding-right: 5px;
+	top: 2px;
+	position: relative;
+	color: #E74C3C;
+}
+
+.distOut, .durationOut{
+	font-weight:bold;
+	font-size:15px;
+
+}
+
+.polarisTitle{
+	color: #E74C3C;
+	font-size:20px;
+	font-family: Quicksand;
+	font-weight:bold;
+}
+
+.specialItem{
+	font-size:15px;
+	text-oveflow:initial !important;
+	white-space: inherit !important;
+
 }

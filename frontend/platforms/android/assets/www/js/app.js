@@ -53,6 +53,25 @@ angular.module('polaris', ['ionic', 'polaris.controllers', 'angular-datepicker']
       }
     }
   })
+
+  .state('app.settings', {
+    url: "/settings",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/settings.html",
+      }
+    }
+  })
+
+  .state('app.about', {
+    url: "/about",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/about.html",
+      }
+    }
+  })
+
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/app/playlists');
   $urlRouterProvider.otherwise('/app/home');

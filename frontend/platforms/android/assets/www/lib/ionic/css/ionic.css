@@ -2765,14 +2765,14 @@ a.subdued {
     .bar.bar-light.bar-footer {
       background-image: linear-gradient(180deg, #ddd, #ddd 50%, transparent 50%); }
   .bar.bar-stable {
-    border-color: #b2b2b2;
-    background-color: #f8f8f8;
-    background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
-    color: #444; }
+    border-color: #E74C3C;
+    background-color: #E74C3C;
+    background-image: linear-gradient(0deg, #E74C3C, #E74C3C 50%, transparent 50%);
+    color: white; }
     .bar.bar-stable .title {
-      color: #444; }
+      color: white; }
     .bar.bar-stable.bar-footer {
-      background-image: linear-gradient(180deg, #b2b2b2, #b2b2b2 50%, transparent 50%); }
+      background-image: linear-gradient(180deg, #E74C3C, #E74C3C 50%, transparent 50%); }
   .bar.bar-positive {
     border-color: #0c63ee;
     background-color: #387ef5;
@@ -2927,7 +2927,7 @@ a.subdued {
     border-color: transparent;
     background: none;
     box-shadow: none;
-    color: #444;
+    color: white;
     font-size: 17px; }
   .bar-light .button.button-icon {
     border-color: transparent;
@@ -2948,7 +2948,7 @@ a.subdued {
     border-color: transparent;
     background: none;
     box-shadow: none;
-    color: #444;
+    color: white;
     font-size: 17px; }
   .bar-stable .button.button-icon {
     border-color: transparent;
@@ -6109,6 +6109,35 @@ progress {
         background-color: #ef473a;
         box-shadow: none;
         color: #fff; }
+
+  .button.button-polaris {
+    border-color: #E74C3C;
+    background-color: #E74C3C;
+    color: #fff; }
+    .button.button-polaris:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-polaris.active, .button.button-polaris.activated {
+      border-color: #E74C3C;
+      background-color: #E74C3C;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1); }
+    .button.button-polaris.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #E74C3C; }
+    .button.button-polaris.button-icon {
+      border-color: transparent;
+      background: none; }
+    .button.button-polaris.button-outline {
+      border-color: #E74C3C;
+      background: transparent;
+      color: #E74C3C; }
+      .button.button-polaris.button-outline.active, .button.button-polaris.button-outline.activated {
+        background-color: #E74C3C;
+        box-shadow: none;
+        color: #fff; }
+
   .button.button-balanced {
     border-color: #28a54c;
     background-color: #33cd5f;

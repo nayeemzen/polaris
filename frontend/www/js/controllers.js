@@ -2,6 +2,7 @@ angular.module('polaris.controllers', [])
 
 .controller('AppCtrl', function($scope, $location, $ionicModal, $timeout) {
   // Form data for the login modal
+
   $scope.loginData = {};
 
   // Create the login modal that we will use later
@@ -38,15 +39,9 @@ angular.module('polaris.controllers', [])
   $scope.location.mode = "Walking";
   $scope.location.origin = "";
   $scope.location.destination = "";
-  $scope.test = "TEST";
-  $scope.directions = "hello world";
 
-<<<<<<< HEAD
-  $scope.setActive = function($event) {
-    console.log($scope.currentTarget);
-  }
 // 16476910576
-// 16475593820
+// 16475593820 (Zen)
 
   $scope.sendSMS = function() {
     SMS.sendSMS('+16475593820', $scope.location, function() {
@@ -57,29 +52,21 @@ angular.module('polaris.controllers', [])
     $location.path('/app/showDirections');
   }
 
-  // somewhere in your controller
-  $scope.options = {
-    format: 'hh-mm', // ISO formatted date
-    onClose: function(e) {
-      // do something when the picker closes
-=======
   $scope.transitModes = [
-    { 
+    {
         mode: 'walk'
     },
     {
         mode: 'bicycle'
     },
     {
-        mode: 'train' 
+        mode: 'train'
     },
     {
-        mode: 'car' 
->>>>>>> 55818464e2f4f0a5085ac593b0640fc91470a137
+        mode: 'car'
     }
   ];
 
-<<<<<<< HEAD
 })
 
 .controller('DirectionsCtrl', function($scope) {
@@ -98,16 +85,6 @@ angular.module('polaris.controllers', [])
       .replace(')','')
       .split(',');
   });
-=======
-  $scope.directions = [
-    { title: 'Reggae' },
-    { title: 'Chill' },
-    { title: 'Dubstep' },
-    { title: 'Indie' },
-    { title: 'Rap' },
-    { title: 'Cowbell' }
-  ];
-
 
   $scope.selectedMode = -1;
   $scope.selectMode = function(_id){
@@ -117,7 +94,4 @@ angular.module('polaris.controllers', [])
     console.log("\n");
   };
 
->>>>>>> 55818464e2f4f0a5085ac593b0640fc91470a137
-
 });
-
