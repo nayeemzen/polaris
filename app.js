@@ -29,7 +29,12 @@ app.get('/api/sms', function(req, res) {
 // Twilio SMS Handler route
 app.post('/api/sms', function(req, res) {
   api_cache.push(req.body)
-  var data = req.body.Body;
+  // Sanitize malformed incoming object
+  var data = JSON.parse(
+        req.body.Body
+        .replace('(','{')
+        .replace(')','}')
+  );
 
   getDirections(data.origin, data.destination, data.mode, function(directions) {
     // Send Twiml (Twilio Markup) response
@@ -40,7 +45,7 @@ app.post('/api/sms', function(req, res) {
 
 function constructTwiml(directions) {
   var twimlRes = '<?xml version="1.0" encoding="UTF-8"?>';
-  twimlRes += '<Response><Message>' + directions.join('\n') + '</Message></Response>';
+  twimlRes += '<Response><Message>' + JSON.stringify(directions) + '</Message></Response>';
   return twimlRes;
 }
 
@@ -53,7 +58,10 @@ function getDirections(origin, destination, mode, callback) {
     result['routes'][0]['legs'][0].steps.forEach(function(step) {
       var step = step.html_instructions;
       // cleanse HTML tags using string.js ($)
-      directions.push($(step).stripTags().s);
+      // Hack(zen): insert space between Maps API destination div
+      directions.push($(step).stripTags().s
+        .replace('Destination', ', Destination')
+      );
     });
 
     // invoke callback with array of directions
