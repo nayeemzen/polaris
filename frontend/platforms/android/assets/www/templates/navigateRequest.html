@@ -17,7 +17,7 @@
 
 	<div class='row padding transitMode'>
 		<div class="col" ng-repeat="transitMode in transitModes">
-			<button ng-click="selectMode($id)" ng-class="{'currentMode':$id == selectedMode}"
+			<button ng-click="selectMode($index)" ng-class="{'currentMode':$index == selectedMode}"
       class="button button-outline button-polaris ion-android-{{transitMode.mode}}">
       </button>
 		</div>

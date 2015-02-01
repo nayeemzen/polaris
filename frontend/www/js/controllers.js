@@ -2,7 +2,6 @@ angular.module('polaris.controllers', [])
 
 .controller('AppCtrl', function($scope, $location, $ionicModal, $timeout) {
   // Form data for the login modal
-
   $scope.loginData = {};
 
   // Create the login modal that we will use later
@@ -40,6 +39,16 @@ angular.module('polaris.controllers', [])
   $scope.location.origin = "";
   $scope.location.destination = "";
 
+  SMS.startWatch(function(){
+    SMS.enableIntercept(true, function(){
+    }, function(){
+      alert('error intercepting');
+    });
+
+  },function () {
+    alert('error watching');
+  });
+
 // 16476910576
 // 16475593820 (Zen)
 
@@ -51,6 +60,14 @@ angular.module('polaris.controllers', [])
 
     $location.path('/app/showDirections');
   }
+
+  $scope.selectedMode = -1;
+  $scope.selectMode = function(_id){
+    $scope.selectedMode = _id;
+    console.log(_id);
+    $scope.location.mode = $scope.transitModes[parseInt(_id)].mode;
+    console.log($scope.location);
+  };
 
   $scope.transitModes = [
     {
@@ -75,23 +92,28 @@ angular.module('polaris.controllers', [])
   filter.box = 'inbox';
   filter.address = '+16475593820';
   filter.maxCount = 1;
-
+  $scope.temp = "";
   $scope.directions = "";
+  $scope.count = 0;
 
-  SMS.listSMS(filter, function(data) {
-    $scope.directions = data[0].body
-      .split(/-(.+)?/)[1]
-      .replace('(','')
-      .replace(')','')
-      .split(',');
+  document.addEventListener('onSMSArrive', function(msg){
+    if($scope.count < 2) {
+      $scope.count++;
+      $scope.temp += msg.data.body;
+      if($scope.count == 2) {
+        $scope.$apply(function() {
+          $scope.directions = $scope.temp
+          .split(/-(.+)?/)[1]
+          .replace('(','')
+          .replace(')','')
+          .split(',');
+        });
+        $scope.temp = "";
+        $scope.count = 0;
+      }
+    }
   });
 
-  $scope.selectedMode = -1;
-  $scope.selectMode = function(_id){
-    console.log($scope.selectedMode);
-    $scope.selectedMode = _id;
-    console.log($scope.selectedMode);
-    console.log("\n");
-  };
+
 
 });
