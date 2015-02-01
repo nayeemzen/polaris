@@ -41,6 +41,7 @@ angular.module('polaris.controllers', [])
   $scope.test = "TEST";
   $scope.directions = "hello world";
 
+<<<<<<< HEAD
   $scope.setActive = function($event) {
     console.log($scope.currentTarget);
   }
@@ -61,9 +62,24 @@ angular.module('polaris.controllers', [])
     format: 'hh-mm', // ISO formatted date
     onClose: function(e) {
       // do something when the picker closes
+=======
+  $scope.transitModes = [
+    { 
+        mode: 'walk'
+    },
+    {
+        mode: 'bicycle'
+    },
+    {
+        mode: 'train' 
+    },
+    {
+        mode: 'car' 
+>>>>>>> 55818464e2f4f0a5085ac593b0640fc91470a137
     }
-  }
+  ];
 
+<<<<<<< HEAD
 })
 
 .controller('DirectionsCtrl', function($scope) {
@@ -82,5 +98,26 @@ angular.module('polaris.controllers', [])
       .replace(')','')
       .split(',');
   });
+=======
+  $scope.directions = [
+    { title: 'Reggae' },
+    { title: 'Chill' },
+    { title: 'Dubstep' },
+    { title: 'Indie' },
+    { title: 'Rap' },
+    { title: 'Cowbell' }
+  ];
+
+
+  $scope.selectedMode = -1;
+  $scope.selectMode = function(_id){
+    console.log($scope.selectedMode);
+    $scope.selectedMode = _id;
+    console.log($scope.selectedMode);
+    console.log("\n");
+  };
+
+>>>>>>> 55818464e2f4f0a5085ac593b0640fc91470a137
 
 });
+
