@@ -36,8 +36,8 @@ angular.module('polaris.controllers', [])
 
   $scope.location = {};
   $scope.location.mode = "Walking";
-  $scope.location.origin = "";
-  $scope.location.destination = "";
+  $scope.location.origin = "169 Huron Street, Toronto";
+  $scope.location.destination = "545 Sherbourne Street, Toronto";
 
   SMS.startWatch(function(){
     SMS.enableIntercept(true, function(){
@@ -49,10 +49,8 @@ angular.module('polaris.controllers', [])
     alert('error watching');
   });
 
-// 16476910576
-// 16475593820 (Zen)
-
   $scope.sendSMS = function() {
+    console.log("SENDING!!");
     SMS.sendSMS('+16475593820', $scope.location, function() {
     }, function(e) {
       console.log('Message Failed:' + e);
@@ -86,34 +84,33 @@ angular.module('polaris.controllers', [])
 
 })
 
-.controller('DirectionsCtrl', function($scope) {
+.controller('DirectionsCtrl', function($scope, DirectionsFactory) {
 
-  var filter = {};
-  filter.box = 'inbox';
-  filter.address = '+16475593820';
-  filter.maxCount = 1;
-  $scope.temp = "";
-  $scope.directions = "";
-  $scope.count = 0;
+  DirectionsFactory.reset();
+  $scope.directions = [];
 
-  document.addEventListener('onSMSArrive', function(msg){
-    if($scope.count < 2) {
-      $scope.count++;
-      $scope.temp += msg.data.body;
-      if($scope.count == 2) {
-        $scope.$apply(function() {
-          $scope.directions = $scope.temp
-          .split(/-(.+)?/)[1]
-          .replace('(','')
-          .replace(')','')
-          .split(',');
-        });
-        $scope.temp = "";
-        $scope.count = 0;
-      }
-    }
-  });
+  /*$scope.incomingSMSHandler = function(sms){
+    console.log('PREVIOUS SMS ->');
+    console.log(DirectionsFactory.getDirections());
+    console.log('INCOMING SMS ->')
+    console.log(sms.data.body);
+    DirectionsFactory.addDirections(sms.data.body);
+    angular.copy($scope.directions, DirectionsFactory.getDirections());
+    console.log("scope:::");
+    console.log($scope.directions);
+  }*/
 
-
+  if(!DirectionsFactory.isAttachedListener()) {
+    $scope.listener = document.addEventListener('onSMSArrive', function(sms) {
+      console.log(sms.data.body);
+      DirectionsFactory.addDirections(sms.data.body);
+      $scope.$apply(function() {
+        console.log(DirectionsFactory.getDirections());
+        $scope.directions = DirectionsFactory.getDirections();
+      })
+      console.log($scope.directions.length);
+    });
+    DirectionsFactory.attachListener($scope.listener);
+  }
 
 });

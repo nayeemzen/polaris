@@ -1,4 +1,4 @@
-angular.module('polaris', ['ionic', 'polaris.controllers', 'angular-datepicker'])
+angular.module('polaris', ['ionic', 'polaris.controllers', 'polaris.services', 'angular-datepicker'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
