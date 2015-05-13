@@ -39,20 +39,20 @@ angular.module('polaris.controllers', [])
   $scope.location.origin = "169 Huron Street, Toronto";
   $scope.location.destination = "545 Sherbourne Street, Toronto";
 
-  SMS.startWatch(function(){
-    SMS.enableIntercept(true, function(){
-    }, function(){
+  SMS.startWatch(function() {
+    SMS.enableIntercept(true, function() {}, function() {
       alert('error intercepting');
     });
 
-  },function () {
+  }, function() {
     alert('error watching');
   });
 
+
+  //6476910576
   $scope.sendSMS = function() {
     console.log("SENDING!!");
-    SMS.sendSMS('+16475593820', $scope.location, function() {
-    }, function(e) {
+    SMS.sendSMS('+16476910576', $scope.location, function() {}, function(e) {
       console.log('Message Failed:' + e);
     });
 
@@ -60,57 +60,65 @@ angular.module('polaris.controllers', [])
   }
 
   $scope.selectedMode = -1;
-  $scope.selectMode = function(_id){
+  $scope.selectMode = function(_id) {
     $scope.selectedMode = _id;
     console.log(_id);
     $scope.location.mode = $scope.transitModes[parseInt(_id)].mode;
     console.log($scope.location);
   };
 
-  $scope.transitModes = [
-    {
-        mode: 'walk'
-    },
-    {
-        mode: 'bicycle'
-    },
-    {
-        mode: 'train'
-    },
-    {
-        mode: 'car'
-    }
-  ];
+  $scope.transitModes = [{
+    mode: 'walk'
+  }, {
+    mode: 'bicycle'
+  }, {
+    mode: 'train'
+  }, {
+    mode: 'car'
+  }];
 
 })
 
-.controller('DirectionsCtrl', function($scope, DirectionsFactory) {
+.controller('DirectionsCtrl', function($scope, DirectionsFactory, $ionicLoading) {
 
-  DirectionsFactory.reset();
-  $scope.directions = [];
 
-  /*$scope.incomingSMSHandler = function(sms){
-    console.log('PREVIOUS SMS ->');
-    console.log(DirectionsFactory.getDirections());
-    console.log('INCOMING SMS ->')
-    console.log(sms.data.body);
-    DirectionsFactory.addDirections(sms.data.body);
-    angular.copy($scope.directions, DirectionsFactory.getDirections());
-    console.log("scope:::");
-    console.log($scope.directions);
-  }*/
+  // change these to variables?
+  $scope.temp = "";
+  $scope.directions = "";
+  $scope.count = 0;
 
-  if(!DirectionsFactory.isAttachedListener()) {
-    $scope.listener = document.addEventListener('onSMSArrive', function(sms) {
-      console.log(sms.data.body);
-      DirectionsFactory.addDirections(sms.data.body);
-      $scope.$apply(function() {
-        console.log(DirectionsFactory.getDirections());
-        $scope.directions = DirectionsFactory.getDirections();
-      })
-      console.log($scope.directions.length);
-    });
-    DirectionsFactory.attachListener($scope.listener);
-  }
+  // Setup the loader
+  $ionicLoading.show({
+    content: 'Loading',
+    animation: 'fade-in',
+    showBackdrop: true,
+    maxWidth: 200,
+    showDelay: 0
+  });
+
+  document.addEventListener('onSMSArrive', function(msg) {
+    if ($scope.count < 2) {
+      $scope.count++;
+      $scope.temp += msg.data.body;
+      // alert(msg.data.body);
+      if ($scope.count == 2) {
+        $scope.$apply(function() {
+          $scope.directions = $scope.temp
+            .split(/-(.+)?/)[1]
+            .replace('(', '')
+            .replace(')', '')
+            .split(',');
+
+          // if ($scope.directions.length){}
+          $ionicLoading.hide();
+
+        });
+        $scope.temp = "";
+        $scope.count = 0;
+      }
+    }
+  });
+
+
 
 });

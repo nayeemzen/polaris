@@ -13,11 +13,13 @@ var api_cache = [];
 
 var app = express();
 // Use body-parser middleware for handling POST requests
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 
 // Default route
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   res.send("<h1> This is the polaris API server</h1>");
 })
 
@@ -29,24 +31,30 @@ app.get('/api/sms', function(req, res) {
 // Twilio SMS Handler route
 app.post('/api/sms', function(req, res) {
   api_cache.push(req.body)
-  // Sanitize malformed incoming object
-  var data = JSON.parse(
-        req.body.Body
-        .replace('(','{')
-        .replace(')','}')
-  );
+    // Sanitize malformed incoming object
+    // var data = JSON.parse(
+    //   req.body.Body
+    //   .replace('(', '{')
+    //   .replace(')', '}')
+    // );
 
-  getDirections(data.origin, data.destination, data.mode, function(directions) {
+  var data = req.body;
+  // console.log(req.body);
+
+  getDirections(data.origin, data.destination, data.mode, function(map, directions) {
     // Send Twiml (Twilio Markup) response
-    var twiml = constructTwiml(directions);
+    var twiml = constructTwiml(map, directions);
     res.send(twiml);
   });
 
 });
 
-function constructTwiml(directions) {
+function constructTwiml(map, directions) {
   var twimlRes = '<?xml version="1.0" encoding="UTF-8"?>';
-  twimlRes += '<Response><Message>' + JSON.stringify(directions) + '</Message></Response>';
+  twimlRes += '<Response><Message>' +
+    '<Map>' + JSON.stringify(map) + '</Map>' +
+    '<Directions>' + JSON.stringify(directions) + '</Directions>' +
+    '</Message></Response>';
   return twimlRes;
 }
 
@@ -55,6 +63,10 @@ function getDirections(origin, destination, mode, callback) {
   googleMaps.directions(origin, destination, function(err, result) {
     if (err) return console.error(err);
 
+    // Grab encoded polyline data
+    var polyline = result['routes'][0].overview_polyline.points;
+
+    // Grab navigation data
     var directions = [];
     result['routes'][0]['legs'][0].steps.forEach(function(step) {
       var step = step.html_instructions;
@@ -65,36 +77,20 @@ function getDirections(origin, destination, mode, callback) {
       );
     });
 
-    // invoke callback with array of directions
-    callback(directions);
-  },'false', mode, null, null,null, null, null, null);
+    // Grab a static map image
+    var requestUrl = "http://maps.googleapis.com/maps/api/staticmap?size=400x200&format=jpg&zoom=13&path=weight:3%7Ccolor:red%7Cenc:"+polyline;
+    request(requestUrl,function(error, response, body){
+      if (!error && response.statusCode == 200){
+        var map = body;
+        // invoke callback with base-64 map and directions
+        callback(map, directions);
+      }
+    });
+
+  }, 'false', mode, null, null, null, null, null, null);
 }
 
 // Start express server
 app.listen(port, function() {
   console.log('Listening to port:', port);
 });
-
-/* MAPS API CODE
-var _start = result['routes'][0].legs[0].start_location;
-var _end = result['routes'][0].legs[0].end_location;
-
-_start = _start.lat + "," + _start.lng;
-_end = _end.lat + "," + _end.lng;
-
-
-var paths = [
-{ 'color': '0x0000ff',
-'weight': '5',
-'points': [ _start, _end ]
-}
-]
-
-var styles = [
-{ 'feature': 'road', 'element': 'all', 'rules':
-{ 'hue': '0x00ff00' }
-}
-]
-
-var map = exec(googleMaps.staticMap(null, null, '500x400', false, false, 'roadmap', markers, styles))
-*/

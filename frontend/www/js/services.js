@@ -7,28 +7,27 @@ angular.module('polaris.services', [])
 
   return {
 
-    attachListener : function (smsListener) {
+    attachListener: function(smsListener) {
       listener = smsListener;
     },
 
-    isAttachedListener : function() {
+    isAttachedListener: function() {
       return (listener !== null);
     },
 
-    getDirections : function() {
-      return !directions.length ?
-      [] : directions
-            .split(/-(.+)?/)[1]
-            .replace('(','')
-            .replace(')','')
-            .split(',');
+    getDirections: function() {
+      return !directions.length ? [] : directions
+        .split(/-(.+)?/)[1]
+        .replace('(', '')
+        .replace(')', '')
+        .split(',');
     },
 
-    reset : function() {
+    reset: function() {
       directions = "";
     },
 
-    addDirections : function(smsBody) {
+    addDirections: function(smsBody) {
       directions += smsBody;
     }
 

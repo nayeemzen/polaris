@@ -1,2 +1,2 @@
-/Users/nayeemzen/Projects/polaris/frontend/platforms/android/ant-build/AndroidManifest.xml : \
-/Users/nayeemzen/Projects/polaris/frontend/platforms/android/AndroidManifest.xml \
+/Users/andrewlouis/Desktop/polaris/frontend/platforms/android/ant-build/AndroidManifest.xml : \
+/Users/andrewlouis/Desktop/polaris/frontend/platforms/android/AndroidManifest.xml \
